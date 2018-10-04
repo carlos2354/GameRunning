@@ -15,7 +15,7 @@ void draw(){
   backGround();  
   
   //obstacles
-  showOstacle(); //based on timer to display obstacle
+  showOstacle(); //based on timer to display obstacle 
 
   
   //player

@@ -49,8 +49,8 @@ class Player{
     if (jumpcounter>jumpLimit){
       isJumping=false; // when main reach to certain high, change to false to force the main go back
       jumpcounter=0; //reset a counter
-    }
-   
-    
+    }   
   }
+  
+  void other(){}
 } 
