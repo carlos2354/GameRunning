@@ -1,0 +1,199 @@
+int y1=400;
+
+int obstacle1Tracker;
+int obstacle2Tracker;
+int obstacle3Tracker;
+int obstacle4Tracker;
+
+int obstacle1Launcher=0;
+int obstacle2Launcher=0;
+int obstacle3Launcher=0;
+int obstacle4Launcher=0;
+
+obstacle obstacle1;
+obstacle obstacle2;
+obstacle obstacle3;
+obstacle obstacle4;
+
+int difficultyLevel=2;
+int starter;
+int gap;
+int[] checkpoints = {0, 0, 0, 0, 0, 0, 0};
+
+void setup() { 
+  size(2200, 800);
+  background(255);
+  obstacle1= new obstacle(1440, 1);
+  obstacle2= new obstacle(1440, 2);
+  obstacle3= new obstacle(1440, 3);
+  obstacle4= new obstacle(1440, 4);
+  frameRate(120);
+  obstacle1Launcher=1;// starts the game
+
+  if (difficultyLevel==2) {
+    starter=500; 
+    gap= 200;
+  }
+  for (int i=0; i <checkpoints.length; i++) {
+    checkpoints[i]= starter-gap*i;
+    println(checkpoints[i]);
+  }
+}
+
+void draw() {
+  background(255);
+  translate(750, 0);
+  if (obstacle4Tracker == checkpoints[0] || obstacle4Tracker == checkpoints[1] ||obstacle4Tracker == checkpoints[2] ||obstacle4Tracker == checkpoints[3] ||obstacle4Tracker == checkpoints[4] ||obstacle4Tracker == checkpoints[5] ) {//checkpoints to change obstacle1Launcher to 1
+    if (obstacle1Launcher==0) { 
+      obstacle1Launcher=round(random(0, 1));
+    }
+  } 
+  if (obstacle4Tracker == checkpoints[6]) { //when the last checkpoint is reached, obstacle1Launcher becomes 1 automatically
+    obstacle1Launcher=1;
+  }
+  if (obstacle1Launcher==1) { //when obstacleLauncher is 1, obstacle 1 size and type are determined. It is then launched. When obstacle 1 reaches the last checkpoint, obstacle1Launcher is set to 0 and obstacle 1 is reset.
+    obstacle1.createAndGo(); // the next groups of 3 if statements are the same for obstacle 2 3 and 4.
+    obstacle1.trackAndReset();
+  }
+
+  if (obstacle1Tracker == checkpoints[0] || obstacle1Tracker == checkpoints[1] ||obstacle1Tracker == checkpoints[2] ||obstacle1Tracker == checkpoints[3] ||obstacle1Tracker == checkpoints[4] ||obstacle1Tracker == checkpoints[5] ) {
+    if (obstacle2Launcher==0) { 
+      obstacle2Launcher=round(random(0, 1));
+    }
+  }
+  if (obstacle1Tracker == checkpoints[6]) {
+    obstacle2Launcher=1;
+  }
+  if (obstacle2Launcher==1) {
+    obstacle2.createAndGo();
+    obstacle2.trackAndReset();
+  }
+
+  if (obstacle2Tracker == checkpoints[0] || obstacle2Tracker == checkpoints[1] ||obstacle2Tracker == checkpoints[2] ||obstacle2Tracker == checkpoints[3] ||obstacle2Tracker == checkpoints[4] ||obstacle2Tracker == checkpoints[5] ) {
+    if (obstacle3Launcher==0) { 
+      obstacle3Launcher=round(random(0, 1));
+    }
+  }
+  if (obstacle2Tracker == checkpoints[6]) {
+    obstacle3Launcher=1;
+  }
+  if (obstacle3Launcher==1) {
+    obstacle3.createAndGo();
+    obstacle3.trackAndReset();
+  }
+
+  if (obstacle3Tracker == checkpoints[0] || obstacle3Tracker == checkpoints[1] ||obstacle3Tracker == checkpoints[2] ||obstacle3Tracker == checkpoints[3] ||obstacle3Tracker == checkpoints[4] ||obstacle3Tracker == checkpoints[5] ) {
+    if (obstacle4Launcher==0) { 
+      obstacle4Launcher=round(random(0, 1));
+    }
+  }
+  if (obstacle3Tracker == checkpoints[6]) {
+    obstacle4Launcher=1;
+  }
+  if (obstacle4Launcher==1) {
+    obstacle4.createAndGo();
+    obstacle4.trackAndReset();
+  }
+  strokeWeight(1);
+  stroke(1);
+  line(1440, 0, 1440, height);
+  line(checkpoints[0], 0, checkpoints[0], height);
+  line(checkpoints[1], 0, checkpoints[1], height);
+  line(checkpoints[2], 0, checkpoints[2], height);
+  line(checkpoints[3], 0, checkpoints[3], height);
+  line(checkpoints[4], 0, checkpoints[4], height);
+  line(checkpoints[5], 0, checkpoints[5], height);
+  line(checkpoints[6], 0, checkpoints[6], height);
+  //println(obstacle1Tracker);
+  //println(obstacle2Launcher);
+}
+class obstacle {
+  int size;
+  int type;//artwork
+  int xpos;
+  int ID;//obstacle number
+  int tracker;
+
+  obstacle( int xpos_, int ID_) { 
+    xpos = xpos_;
+    size = round(random(1, 4));
+    if (size==1) {
+      type=  round(random(1, 2));
+    } else if (size==2) {
+      round(random(2, 3));
+    } else if (size==3) {
+      round(random(5, 6));
+    } else {
+      round(random(7, 8));
+    }
+    ID= ID_;
+  }
+
+  void createAndGo() { 
+    obstacleSize(xpos, size);
+    type (xpos, type);
+    xpos=xpos-difficultyLevel;
+    fill(0);
+    textSize(20);
+    text(ID, xpos, y1);
+  }
+
+  void trackAndReset() {
+    if (ID==1) {
+      obstacle1Tracker=xpos;
+      if (xpos == checkpoints[6]+difficultyLevel) {
+        xpos=1440;
+        obstacle1Launcher=0;
+        size = round(random(1, 4));
+      }
+    }
+    if (ID==2) {
+      obstacle2Tracker=xpos;
+      if (xpos == checkpoints[6]+difficultyLevel) {
+        xpos=1440;
+        obstacle2Launcher=0;
+        size = round(random(1, 4));
+      }
+    }
+    if (ID==3) {
+      obstacle3Tracker=xpos;
+      if (xpos == checkpoints[6]+difficultyLevel) {
+        xpos=1440;
+        obstacle3Launcher=0;
+        size = round(random(1, 4));
+      }
+    }
+    if (ID==4) {
+      obstacle4Tracker=xpos;
+      if (xpos == checkpoints[6]+difficultyLevel) {
+        xpos=1440;
+        obstacle4Launcher=0;
+        size = round(random(1, 4));
+      }
+    }
+  }
+}
+
+void obstacleSize (int xpos, int size) {
+  int blockSz=20;
+  if (size==1) {
+    fill (0, 255, 0);
+    rect(xpos, y1-blockSz*4, blockSz*5, blockSz*4);
+  }
+  if (size==2) { 
+    fill(0, 0, 255);
+    rect(xpos, y1-blockSz*6, blockSz*5, blockSz*6);
+  }
+  if (size==3) {
+    fill(0, 255, 255);
+    rect(xpos, y1-blockSz*8, blockSz*7, blockSz*8);
+  }
+  if (size==4) {    
+    fill(255, 0, 255);
+    rect(xpos, y1-blockSz*10, blockSz*9, blockSz*10);
+  }
+}
+
+void type(int xpos, int type) {    
+  if (type==1) {
+  }}
